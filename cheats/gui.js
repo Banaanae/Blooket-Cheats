@@ -928,14 +928,6 @@
                     }
                 },
                 {
-                    name: "Remove Name Limit",
-                    description: "Sets the name limit to 120, which is the actual max name length limit",
-                    run: function () {
-                        document.querySelector('input[class*="nameInput"]').maxLength = 120; /* 120 is the actual limit */
-                        alert("Removed name length limit");
-                    }
-                },
-                {
                     name: "Remove Random Name",
                     description: "Allows you to put a custom name",
                     run: function () {
@@ -2189,6 +2181,29 @@
                             val: target + ":swap:0"
                         });
                     }
+                },
+                {
+                    name: "Restart Game",
+                    description: "Sets everyone's gold to 0",
+                    run: function () {
+                        let stateNode = getStateNode();
+                        let playerArr = stateNode.props.liveGameController._liveApp 
+                            ? new Promise(res => stateNode.props.liveGameController.getDatabaseVal("c", (players) => players && res(Object.keys(players)))) 
+                            : Promise.resolve([]);
+                    
+                        playerArr.then(function (targets) {
+                            targets.forEach(function (target, index) {
+                                setTimeout(function () {
+                                    console.log(target)
+                                    let stateNode = getStateNode();
+                                    stateNode.props.liveGameController.setVal({
+                                        path: "c/" + stateNode.props.client.name + "/tat",
+                                        val: target + ":swap:0"
+                                    });
+                                }, index * 750)
+                            });
+                        })
+                    }                    
                 },
                 {
                     name: "Set Gold",
