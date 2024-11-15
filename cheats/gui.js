@@ -2191,6 +2191,11 @@
                             ? new Promise(res => stateNode.props.liveGameController.getDatabaseVal("c", (players) => players && res(Object.keys(players)))) 
                             : Promise.resolve([]);
                     
+                        /*stateNode.setState({ gold: 0, gold2: 0 });
+                        stateNode.props.liveGameController.setVal({
+                            path: "c/" + stateNode.props.client.name + "/g",
+                            val: 0
+                        });*/
                         playerArr.then(function (targets) {
                             targets.forEach(function (target, index) {
                                 setTimeout(function () {
@@ -2200,7 +2205,7 @@
                                         path: "c/" + stateNode.props.client.name + "/tat",
                                         val: target + ":swap:0"
                                     });
-                                }, index * 750)
+                                }, index * 5000)
                             });
                         })
                     }                    
